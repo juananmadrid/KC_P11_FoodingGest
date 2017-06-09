@@ -8,11 +8,10 @@ public class Tables {
 
     private static Tables mInstance;
 
-    private Integer mNumber;
-    private LinkedList<Table> mTables;
 
+    // Singleton de Cities (instancio y expongo con método getInstance)
 
-    // Instanciamos aqui las mesas y las hacemos accesibles desde fuera
+    private static LinkedList<Table> mTables;
 
     public static Tables getInstance() {
         if (mInstance == null) {
@@ -22,21 +21,38 @@ public class Tables {
         return mInstance;
     }
 
-    // Tendremos un total de 10 mesas. Las inicializamos con su nombre y lista vacía de platos
+
+    // Inicializamos mesas con su nombre y lista vacía de platos
     public Tables() {
-
         mTables = new LinkedList<>();
-        mTables.add(new Table(1));
-        mTables.add(new Table(12));
-        mTables.add(new Table(3));
-        mTables.add(new Table(4));
-        mTables.add(new Table(5));
-        mTables.add(new Table(6));
-        mTables.add(new Table(7));
-        mTables.add(new Table(8));
-        mTables.add(new Table(9));
-        mTables.add(new Table(10));
+        mTables.add(new Table("Mesa 1"));
+        mTables.add(new Table("Mesa 2"));
+        mTables.add(new Table("Mesa 3"));
+        mTables.add(new Table("Mesa 4"));
+        mTables.add(new Table("Mesa 5"));
+        mTables.add(new Table("Mesa 6"));
+        mTables.add(new Table("Mesa 7"));
+        mTables.add(new Table("Mesa 8"));
+        mTables.add(new Table("Mesa 9"));
+        mTables.add(new Table("Mesa 10"));
+        mTables.add(new Table("Mesa 11"));
+        mTables.add(new Table("Mesa 12"));
+        mTables.add(new Table("Mesa 13"));
+        mTables.add(new Table("Mesa 14"));
+        mTables.add(new Table("Mesa 15"));
 
+    }
+
+    public static LinkedList<Table> getTables() {
+        return mTables;
+    }
+
+    public Table getTable(int index) {
+        return mTables.get(index);
+    }
+
+    public int getCount() {
+        return mTables.size();
     }
 
 
