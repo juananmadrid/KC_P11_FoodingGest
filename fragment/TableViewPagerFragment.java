@@ -1,8 +1,10 @@
 package es.kronox.foodinggest.fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import es.kronox.foodinggest.R;
+import es.kronox.foodinggest.activity.TableViewPagerActivity;
 import es.kronox.foodinggest.model.Table;
 import es.kronox.foodinggest.model.Tables;
 
@@ -30,6 +33,8 @@ public class TableViewPagerFragment extends Fragment {
     private int mInitialTableIndex = 0;
     private ViewPager mPager;
     private Tables mTables;
+
+    protected OnAddDishButtonListener mOnAddDishButtonListener;
 
     public static TableViewPagerFragment newInstance(int  initialTableIndex) {
         TableViewPagerFragment fragment = new TableViewPagerFragment();
@@ -70,28 +75,28 @@ public class TableViewPagerFragment extends Fragment {
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
                 updateTable(position);
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
+        // Actualizamos Pager
         mPager.setCurrentItem(mInitialTableIndex);
+        // Actualizamos titulo en la toolbar
         updateTable(mInitialTableIndex);
 
         return root;
 
     }
 
+    // Cargamos titulo en la toolbar
     public void updateTable (int tableIndex){
         String tableName = mTables.getTable(tableIndex).getName();
         if (getActivity() instanceof AppCompatActivity) {
@@ -116,6 +121,19 @@ public class TableViewPagerFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean superReturn = super.onOptionsItemSelected(item);
 
+        if (item.getItemId() == R.id.menu_table_add) {
+
+            item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+
+                    mOnAddDishButtonListener.OnAddDishButton(mPager.getCurrentItem());
+                    return true;
+                }
+            });
+            return true;
+        }
+
         if (item.getItemId() == R.id.menu_table_bill) {
             Log.v(TAG, "Pulsada opcion menu Bill");
             return true;
@@ -123,6 +141,34 @@ public class TableViewPagerFragment extends Fragment {
 
         return superReturn;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (getActivity() instanceof OnAddDishButtonListener) {
+            mOnAddDishButtonListener = (OnAddDishButtonListener) getActivity();
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (getActivity() instanceof OnAddDishButtonListener) {
+            mOnAddDishButtonListener = (OnAddDishButtonListener) getActivity();
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mOnAddDishButtonListener = null;
+    }
+
+
+    public interface OnAddDishButtonListener {
+        void OnAddDishButton(int position);
+    }
+
 }
 
 class TableViewPagerAdapter extends FragmentPagerAdapter {
