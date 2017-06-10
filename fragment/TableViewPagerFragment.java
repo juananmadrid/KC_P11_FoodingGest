@@ -66,6 +66,26 @@ public class TableViewPagerFragment extends Fragment {
         // Asignamos Adapter
         mPager.setAdapter(adapter);
 
+        // Nos enteramos de que cambia la pagina del ViewPager usando método addOnPageChangeListener
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updateTable(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        mPager.setCurrentItem(mInitialTableIndex);
         updateTable(mInitialTableIndex);
 
         return root;

@@ -1,9 +1,10 @@
 package es.kronox.foodinggest.model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 
-public class Table {
+public class Table implements Serializable {
 
 
     private String mName;
