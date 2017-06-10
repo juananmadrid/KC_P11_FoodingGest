@@ -6,13 +6,21 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import es.kronox.foodinggest.R;
 import es.kronox.foodinggest.model.Table;
 import es.kronox.foodinggest.model.Tables;
+
+import static android.content.ContentValues.TAG;
 
 
 public class TableViewPagerFragment extends Fragment {
@@ -23,17 +31,20 @@ public class TableViewPagerFragment extends Fragment {
     private ViewPager mPager;
     private Tables mTables;
 
-    public static TableViewPagerFragment newInstance(int  initial_table_index) {
+    public static TableViewPagerFragment newInstance(int  initialTableIndex) {
         TableViewPagerFragment fragment = new TableViewPagerFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_INITIAL_TABLE_INDEX, initial_table_index);
-        fragment.setArguments(args);
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARG_INITIAL_TABLE_INDEX, initialTableIndex);
+        fragment.setArguments(arguments);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+
         if (getArguments() != null) {
             mInitialTableIndex = getArguments().getInt(ARG_INITIAL_TABLE_INDEX);
 
@@ -55,10 +66,43 @@ public class TableViewPagerFragment extends Fragment {
         // Asignamos Adapter
         mPager.setAdapter(adapter);
 
+        updateTable(mInitialTableIndex);
+
         return root;
 
     }
 
+    public void updateTable (int tableIndex){
+        String tableName = mTables.getTable(tableIndex).getName();
+        if (getActivity() instanceof AppCompatActivity) {
+            AppCompatActivity parentActivity = (AppCompatActivity) getActivity();
+            ActionBar toolbar = parentActivity.getSupportActionBar();
+            if (toolbar != null) {
+                toolbar.setTitle(tableName);
+            }
+        }
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_table, menu);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean superReturn = super.onOptionsItemSelected(item);
+
+        if (item.getItemId() == R.id.menu_table_bill) {
+            Log.v(TAG, "Pulsada opcion menu Bill");
+            return true;
+        }
+
+        return superReturn;
+    }
 }
 
 class TableViewPagerAdapter extends FragmentPagerAdapter {
@@ -84,15 +128,15 @@ class TableViewPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-//    @Override
-//    public CharSequence getPageTitle(int position) {
-//        return super.getPageTitle(position);
-//
-//        Table table = mTables.getTable(position);
-//        String tableName = table.getName();
-//
-//        return tableName;
-//
-//    }
+    @Override
+    public CharSequence getPageTitle(int position) {
+        super.getPageTitle(position);
+
+        Table table = mTables.getTable(position);
+        String tableName = table.getName();
+
+        return tableName;
+
+    }
 
 }
