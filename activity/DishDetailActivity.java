@@ -27,7 +27,7 @@ public class DishDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dish_detail);
 
         // Recibo el index y el dish seleccionado que me pasa por Intent DishListActivity
-        int mIndexTable = getIntent().getIntExtra(EXTRA_INDEX_TABLES, 0);
+        final int mIndexTable = getIntent().getIntExtra(EXTRA_INDEX_TABLES, 0);
         mDish = (Dish) getIntent().getSerializableExtra(EXTRA_DISH_SELECT);
 
         // Accedemos a las vistas de la interfaz
@@ -65,7 +65,7 @@ public class DishDetailActivity extends AppCompatActivity {
         findViewById(R.id.accept_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                acceptButton();
+                acceptButton(mIndexTable);
             }
         });
 
@@ -83,12 +83,12 @@ public class DishDetailActivity extends AppCompatActivity {
         finish();
     }
 
-    private void acceptButton() {
+    private void acceptButton(int index) {
 
         // Añado plato a la lista de esa mesa
 
         // mTables.addDish(mDish);
-        mTables.getTable(mIndexTable).addDish(mDish);
+        mTables.getTable(index).addDish(mDish);
         finish();
 
     }
