@@ -1,5 +1,6 @@
 package es.kronox.foodinggest.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -26,11 +28,12 @@ import es.kronox.foodinggest.model.Table;
 import es.kronox.foodinggest.model.Tables;
 
 
-public class DishListActivity extends AppCompatActivity {
+public class DishListActivity extends AppCompatActivity  {
 
     public static final String EXTRA_INDEX_TABLE = "EXTRA_INDEX_TABLE";
 
     protected LinkedList<Dish> mDishes;
+    int indexTableActive;
 
     String urlString = "http://www.mocky.io/v2/593be1031000009b0ec47774";
 
@@ -43,11 +46,22 @@ public class DishListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_dishes);
         setSupportActionBar(toolbar);
+
         // Recibimos la mesa a mostrar (por defecto 0)
-        int tableIndex = getIntent().getIntExtra(EXTRA_INDEX_TABLE, 0);
+        indexTableActive = getIntent().getIntExtra(EXTRA_INDEX_TABLE, 0);
 
         // Accedemos a la lista
         final ListView list = (ListView) findViewById(R.id.view_dish_list);
+
+        // Le asigno un Listener a la lista para saber qué fila se selecciona
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Dish dish = mDishes.get(position);
+                OnDishSelected(dish);
+            }
+        });
 
         // Descarga asincrona de datos a mostrar en la lista
         if (mDishes == null) {
@@ -166,6 +180,17 @@ public class DishListActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
         return null;
+
+    }
+
+
+    public void OnDishSelected(Dish dish) {
+
+        Intent intent = new Intent(this, DishDetailActivity.class);
+        // intent.putExtra(DishDetailActivity.EXTRA_DISH_SELECT, dish);
+        intent.putExtra(DishDetailActivity.EXTRA_DISH_SELECT, dish);
+        intent.putExtra(DishDetailActivity.EXTRA_INDEX_TABLES, indexTableActive);
+        startActivity(intent);
 
     }
 

@@ -34,9 +34,7 @@ public class TablesActivity extends AppCompatActivity implements TableListFragme
             fm.beginTransaction()
                     .add(R.id.tables_list_fragment, fragment)
                     .commit();
-
         }
-
     }
 
     @Override

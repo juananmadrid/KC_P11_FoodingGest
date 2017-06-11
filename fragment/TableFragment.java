@@ -61,9 +61,6 @@ public class TableFragment extends Fragment {
         // Otra forma por si no me pasan el plato instanciado y me pasan el index
         // mDishes = Tables.getInstance().getTable(mTableIndex).getDishes();
 
-        // Accedemos al viewSwitcher
-
-
         // Creamos Adapter con lista de platos
 
         ArrayAdapter<Dish> adapter = new ArrayAdapter<Dish>(

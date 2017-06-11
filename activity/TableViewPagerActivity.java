@@ -1,6 +1,7 @@
 package es.kronox.foodinggest.activity;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,7 +12,7 @@ import android.view.View;
 import es.kronox.foodinggest.R;
 import es.kronox.foodinggest.fragment.TableViewPagerFragment;
 
-public class TableViewPagerActivity extends AppCompatActivity {
+public class TableViewPagerActivity extends AppCompatActivity implements TableViewPagerFragment.OnAddDishButtonListener {
 
     public static final String EXTRA_TABLE_INDEX = "EXTRA_TABLE_INDEX";
 
@@ -39,11 +40,15 @@ public class TableViewPagerActivity extends AppCompatActivity {
                     .commit();
 
         }
+    }
 
+    // Se ejecutará al pulsar botón "Add Dish"
 
+    public void OnAddDishButton (int position) {
 
-
-
+        Intent intent = new Intent(this, DishListActivity.class);
+        intent.putExtra(DishListActivity.EXTRA_INDEX_TABLE, position);
+        startActivity(intent);
 
     }
 

@@ -41,4 +41,8 @@ public class Table implements Serializable {
     public String toString() {
         return getName();
     }
+
+    public void addDish(Dish dish) {
+        mDishes.add(dish);
+    }
 }

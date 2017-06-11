@@ -22,6 +22,18 @@ public class Dish implements Serializable {
         mVariants = variants;
     }
 
+    public Dish(String name, String ingredients, Double price, String imageName) {
+        mName = name;
+        mIngredients = ingredients;
+        mPrice = price;
+        mImageName = imageName;
+        mVariants = "";
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 
     // Getter
 
@@ -49,10 +61,24 @@ public class Dish implements Serializable {
 
     // Setters
 
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public void setIngredients(String ingredients) {
+        mIngredients = ingredients;
+    }
+
+    public void setPrice(Double price) {
+        mPrice = price;
+    }
+
+    public void setImageName(String imageName) {
+        mImageName = imageName;
+    }
+
     public void setVariants(String variants) {
         mVariants = variants;
     }
-
-
-
 }

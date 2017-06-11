@@ -6,10 +6,9 @@ import java.util.LinkedList;
 public class Tables {
 
 
+    // Singleton de mesas (instancio y expongo con método getInstance)
+
     private static Tables mInstance;
-
-
-    // Singleton de Cities (instancio y expongo con método getInstance)
 
     private static LinkedList<Table> mTables;
 
